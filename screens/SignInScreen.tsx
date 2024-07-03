@@ -3,13 +3,21 @@
 
 // Adapted from https://reactnavigation.org/docs/auth-flow
 import React from 'react';
-import {/*Alert,*/ Button, StyleSheet, Text, View} from 'react-native';
+import {
+  /*Alert,*/ Button,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 //import {ParamListBase} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
+import image from './bg.png';
 
 import {AuthContext} from '../AuthContext';
 import {StackParamList} from '../App';
-
+import {Dimensions} from 'react-native';
 type SignInProps = StackScreenProps<StackParamList, 'SignIn'>;
 
 export default class SignInScreen extends React.Component<SignInProps> {
@@ -23,15 +31,23 @@ export default class SignInScreen extends React.Component<SignInProps> {
   componentDidMount() {
     this.props.navigation.setOptions({
       title: 'Please sign in',
-      headerShown: true,
+      headerShown: false,
     });
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <ImageBackground
+          source={image}
+          resizeMode='stretch'
+          style={styles.image}>
+          {/* <Text style={styles.text}>Inside</Text> */}
+          <TouchableOpacity onPress={this._signInAsync} style={styles.button}>
+            <Text style={{textAlign:'center',fontSize:20,color:'white',fontWeight:500}}>Sign In</Text>
+          </TouchableOpacity>
+        </ImageBackground>
         <Text style={styles.title}>Oneview</Text>
-        <Button title='Sign In' onPress={this._signInAsync} />
       </View>
     );
   }
@@ -43,8 +59,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title:{
-    fontSize:20,
-    fontWeight:"600"
-  }
+  title: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  image: {
+    height: Dimensions.get('window').height + 14,
+    width: Dimensions.get('window').width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#005EEF',
+    padding: 14,
+    width: 200,
+    marginTop: 650,
+    borderRadius: 6,
+  },
 });

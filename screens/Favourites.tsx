@@ -12,7 +12,7 @@ const Favourites = () => {
     corperate: [
       {
         name: 'Newsletters',
-        icon: '',
+        icon: ''
       },
       {
         name: 'Results Review',
@@ -114,41 +114,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 10,
+    marginTop: 20,
+    paddingLeft: 6,
+  },
+  section: {
+    marginBottom: 14,
   },
   card_container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: 12,
+    columnGap: 4,
+    rowGap: 10,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '300',
-    color: '#88c3df',
+    fontSize: 19,
+    fontWeight: '500',
+    color: '#005EEF',
+    marginTop: 15,
   },
   corperate_card: {
-    width: 130,
+    width: 180,
     height: 80,
-    backgroundColor: '#7baddf',
+    margin: 'auto',
+    backgroundColor: '#01b2fe',
     borderRadius: 6,
     margin: 4,
   },
   home_card: {
-    width: 140,
+    width: 180,
     height: 80,
-    backgroundColor: '#743b8c',
+    backgroundColor: '#9c44bf',
     borderRadius: 6,
     margin: 4,
   },
   icecream_card: {
-    width: 140,
+    width: 180,
     height: 80,
-    backgroundColor: '#bb2c87',
+    backgroundColor: '#fe0a7b',
     borderRadius: 6,
     margin: 4,
   },
   nutrition_card: {
-    width: 140,
+    width: 180,
     height: 80,
-    backgroundColor: '#3e7d3c',
+    backgroundColor: '#008651',
     borderRadius: 6,
     margin: 4,
   },
@@ -157,5 +167,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
+    fontSize: 18,
   },
 });

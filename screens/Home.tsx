@@ -8,8 +8,15 @@ import {
 } from 'react-native';
 import React, {useEffect} from 'react';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
+import {useFileModule} from './Modules/FileModule';
+import {NativeModules} from 'react-native';
+import RNFetchBlob from 'react-native-blob-util';
+import FileViewer from 'react-native-file-viewer';
+// console.log(NativeModules)
+const {PdfController} = NativeModules;
 const Home = () => {
+  const {accessFilePath, createFile} = useFileModule();
+  const libPath = RNFetchBlob.fs.dirs.LibraryDir;
   const tileDetails = {
     corperate: [
       {
@@ -20,6 +27,7 @@ const Home = () => {
       {
         name: 'Results Review',
         icon: '',
+        type: 'pdf',
       },
       {
         name: 'Forecast Review',
@@ -30,7 +38,7 @@ const Home = () => {
         icon: '',
       },
       {
-        name: 'Corperate Deck',
+        name: 'Corporate Deck',
         icon: '',
       },
       {
@@ -42,10 +50,12 @@ const Home = () => {
       {
         name: 'Business Group Results',
         icon: '',
+        type: 'ppt',
       },
       {
         name: 'Brand Results',
         icon: '',
+        isNotification: true,
       },
       {
         name: 'Category Results',
@@ -139,57 +149,88 @@ const Home = () => {
       fireDate: new Date(new Date().valueOf() + 1000), // Fire notification after 2 seconds
     });
   };
+  const handleOpenDocument = async (type: string) => {
+    try {
+      const filePath = await createFile(type);
+      await FileViewer.open(filePath as string);
+      //  console.log("Data",data)
+      // await getFilesInDirectory()
+      //  if(accessFilePath) {
+      //   // console.log("accessFilePath",accessFilePath)
+      //   const filePath = `${libPath}/oneview/${accessFilePath[2]}`
+      // //  PdfController.openPDF(filePath)
+
+      //  }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>CORPERATE</Text>
-      <View style={styles.card_container}>
-        {tileDetails.corperate.map((item, index) => (
-          <TouchableOpacity
-            activeOpacity={0.05}
-            key={index}
-            style={styles.corperate_card}
-            onPress={
-              item.isNotification
-                ? addNotificationRequest
-                : () => console.log('Tile is not to notify')
-            }>
-            <Text style={styles.card_text}>{item.name}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.section}>
+        <Text style={styles.title}>CORPORATE</Text>
+        <View style={styles.card_container}>
+          {tileDetails.corperate.map((item, index) => (
+            <TouchableOpacity
+              activeOpacity={0.05}
+              key={index}
+              style={styles.corperate_card}
+              onPress={
+                item.isNotification
+                  ? addNotificationRequest
+                  : item.type
+                  ? () => handleOpenDocument(item.type)
+                  : () => console.log('Tile is not to notify')
+              }>
+              <Text style={styles.card_text}>{item.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-      <Text style={styles.title}>HOME CARE</Text>
-      <View style={styles.card_container}>
-        {tileDetails.beautyandcare.map((item, index) => (
-          <TouchableOpacity
-            activeOpacity={0.05}
-            key={index}
-            style={styles.home_card}>
-            <Text style={styles.card_text}>{item.name}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.section}>
+        <Text style={styles.title}>HOME CARE</Text>
+        <View style={styles.card_container}>
+          {tileDetails.beautyandcare.map((item, index) => (
+            <TouchableOpacity
+              activeOpacity={0.05}
+              key={index}
+              style={styles.home_card}
+              onPress={
+                item.isNotification
+                  ? addNotificationRequest
+                  : item.type
+                  ? () => handleOpenDocument(item.type)
+                  : () => console.log('Tile is not to notify')
+              }>
+              <Text style={styles.card_text}>{item.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-      <Text style={styles.title}>ICE CREAM</Text>
-      <View style={styles.card_container}>
-        {tileDetails.iceCream.map((item, index) => (
-          <TouchableOpacity
-            activeOpacity={0.05}
-            key={index}
-            style={styles.icecream_card}>
-            <Text style={styles.card_text}>{item.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <Text style={styles.title}>NUTRITION</Text>
-      <View style={styles.card_container}>
-        {tileDetails.iceCream.map((item, index) => (
-          <TouchableOpacity
-            activeOpacity={0.05}
-            key={index}
-            style={styles.nutrition_card}>
-            <Text style={styles.card_text}>{item.name}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.section}>
+        <Text style={styles.title}>ICE CREAM</Text>
+        <View style={styles.card_container}>
+          {tileDetails.iceCream.map((item, index) => (
+            <TouchableOpacity
+              activeOpacity={0.05}
+              key={index}
+              style={styles.icecream_card}>
+              <Text style={styles.card_text}>{item.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <Text style={styles.title}>NUTRITION</Text>
+        <View style={styles.card_container}>
+          {tileDetails.iceCream.map((item, index) => (
+            <TouchableOpacity
+              activeOpacity={0.05}
+              key={index}
+              style={styles.nutrition_card}>
+              <Text style={styles.card_text}>{item.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </ScrollView>
   );
@@ -201,41 +242,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 10,
+    marginTop: 20,
+    paddingLeft: 6,
+  },
+  section: {
+    marginBottom: 14,
   },
   card_container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: 12,
+    columnGap:4,
+    rowGap:10
   },
   title: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: '500',
-    color: '#88c3df',
+    color: '#005EEF',
+    marginTop: 15,
   },
   corperate_card: {
-    width: 130,
+    width: 180,
     height: 80,
-    backgroundColor: '#7baddf',
+    margin: 'auto',
+    backgroundColor: '#01b2fe',
     borderRadius: 6,
     margin: 4,
   },
   home_card: {
-    width: 140,
+    width: 180,
     height: 80,
-    backgroundColor: '#743b8c',
+    backgroundColor: '#9c44bf',
     borderRadius: 6,
     margin: 4,
   },
   icecream_card: {
-    width: 140,
+    width: 180,
     height: 80,
-    backgroundColor: '#bb2c87',
+    backgroundColor: '#fe0a7b',
     borderRadius: 6,
     margin: 4,
   },
   nutrition_card: {
-    width: 140,
+    width: 180,
     height: 80,
-    backgroundColor: '#3e7d3c',
+    backgroundColor: '#008651',
     borderRadius: 6,
     margin: 4,
   },
@@ -244,5 +295,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
+    fontSize: 18,
   },
 });
