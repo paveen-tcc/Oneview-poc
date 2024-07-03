@@ -89,7 +89,7 @@ export default function App({_navigation}: Props) {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerShown: false,
+            headerShown: false
           }}
           initialRouteName='Loading'>
           {state.isLoading ? (
