@@ -1,4 +1,4 @@
-import {StyleSheet, ScrollView, Text, View} from 'react-native';
+import {StyleSheet, ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
 const Home = () => {
@@ -51,23 +51,23 @@ const Home = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Corperate</Text>
+      <Text style={styles.title}>CORPERATE</Text>
       <View style={styles.card_container}>
         {tileDetails.corperate.map((item,index) => (
-          <View key={index} style={styles.corperate_card}>
+          <TouchableOpacity activeOpacity={0.05} key={index} style={styles.corperate_card}>
             <Text style={styles.card_text}>{item.name}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
-      <Text style={styles.title}>Home Care</Text>
+      <Text style={styles.title}>HOME CARE</Text>
       <View style={styles.card_container}>
         {tileDetails.beautyandcare.map((item,index) => (
-          <View key={index} style={styles.home_card}>
+          <TouchableOpacity activeOpacity={0.05} key={index} style={styles.home_card}>
             <Text
               style={styles.card_text}>
               {item.name}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '300',
+    color:"#88c3df"
   },
   corperate_card: {
     width: 130,
