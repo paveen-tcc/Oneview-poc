@@ -47,6 +47,26 @@ const Home = () => {
         icon: '',
       },
     ],
+    iceCream:[
+      {
+        name: 'Market Share & Business Winning',
+        icon: '',
+      },
+      {
+        name: 'Reference Documents',
+        icon: '',
+      }
+    ],
+    nutrition:[
+      {
+        name: 'Market Share & Business Winning',
+        icon: '',
+      },
+      {
+        name: 'Reference Documents',
+        icon: '',
+      }
+    ]
   };
 
   return (
@@ -63,6 +83,28 @@ const Home = () => {
       <View style={styles.card_container}>
         {tileDetails.beautyandcare.map((item,index) => (
           <TouchableOpacity activeOpacity={0.05} key={index} style={styles.home_card}>
+            <Text
+              style={styles.card_text}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <Text style={styles.title}>ICE CREAM</Text>
+      <View style={styles.card_container}>
+        {tileDetails.iceCream.map((item,index) => (
+          <TouchableOpacity activeOpacity={0.05} key={index} style={styles.icecream_card}>
+            <Text
+              style={styles.card_text}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <Text style={styles.title}>NUTRITION</Text>
+      <View style={styles.card_container}>
+        {tileDetails.iceCream.map((item,index) => (
+          <TouchableOpacity activeOpacity={0.05} key={index} style={styles.nutrition_card}>
             <Text
               style={styles.card_text}>
               {item.name}
@@ -101,6 +143,20 @@ const styles = StyleSheet.create({
     width: 140,
     height: 80,
     backgroundColor: '#743b8c',
+    borderRadius: 6,
+    margin: 4,
+  },
+  icecream_card:{
+    width: 140,
+    height: 80,
+    backgroundColor: '#bb2c87',
+    borderRadius: 6,
+    margin: 4,
+  },
+  nutrition_card:{
+    width: 140,
+    height: 80,
+    backgroundColor: '#3e7d3c',
     borderRadius: 6,
     margin: 4,
   },

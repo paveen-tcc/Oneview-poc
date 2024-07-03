@@ -14,12 +14,12 @@ import {AuthContext} from './AuthContext';
 import {AuthManager} from './auth/AuthManager';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import SignInScreen from './screens/SignInScreen';
-import Home from './screens/Home';
+import Tabs from './tabs/Tabs';
 
 export type StackParamList = {
   Loading: undefined;
   SignIn: StackScreenProps<StackParamList, 'SignIn'>;
-  Home: StackScreenProps<StackParamList, 'Home'>;
+  Tabs: StackScreenProps<StackParamList, 'Tabs'>;
 };
 
 const Stack = createStackNavigator<StackParamList>();
@@ -87,13 +87,17 @@ export default function App({_navigation}: Props) {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Loading'>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName='Loading'>
           {state.isLoading ? (
             <Stack.Screen name='Loading' component={AuthLoadingScreen} />
           ) : state.userToken == null ? (
             <Stack.Screen name='SignIn' component={SignInScreen} />
           ) : (
-            <Stack.Screen name='Home' component={Home} />
+            <Stack.Screen name='Tabs' component={Tabs} />
           )}
         </Stack.Navigator>
       </NavigationContainer>
